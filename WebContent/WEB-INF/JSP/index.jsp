@@ -9,7 +9,9 @@
 </c:import>
 </head>
 <head><title>Pizza Luigi</title></head>
-<body><h1>We zijn ${openGesloten}</h1>
+<body>
+<c:import url='/WEB-INF/JSP/menu.jsp'/>
+<h1>We zijn ${openGesloten}</h1>
 	<img src="images/${openGesloten}.png" alt="${openGesloten}"/>
 	<dl>
 	<dt>Straat</dt><dd>${adres.straat}</dd>
