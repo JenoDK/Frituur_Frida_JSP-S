@@ -3,6 +3,11 @@ package be.vdab.servlets;
 import java.io.IOException;
 
 
+
+
+
+
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +23,7 @@ import be.vdab.dao.SausDAO;
 @WebServlet("/sauzen.htm")
 public class SausServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String VIEW = "/WEB-INF/JSP/sauzen.jsp";
+	private static final String VIEW = "/WEB-INF/JSP/sauzen.jsp";	
 	private final SausDAO sausdao = new SausDAO();
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,5 +32,7 @@ public class SausServlet extends HttpServlet {
 		request.setAttribute("sauzen", sausdao.findAll());
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
+	
+	
 
 }

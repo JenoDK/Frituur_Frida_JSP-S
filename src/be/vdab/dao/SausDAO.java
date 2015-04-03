@@ -38,4 +38,7 @@ public class SausDAO {
 		}
 		return sauzen;
 	}
+	public void remove(Long id){
+		sauzen.remove(id);
+	}
 }
