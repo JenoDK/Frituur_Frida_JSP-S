@@ -3,24 +3,36 @@
 <!doctype html>
 <html lang="nl">
 <head>
-<c:import url="/WEB-INF/JSP/head.jsp">
-	<c:param name='title' value="Sauzen" />
+<c:import url="head.jsp">
+	<c:param name='title' value='Zoek de friet' />
 </c:import>
 </head>
 <body>
-	<c:import url='/WEB-INF/JSP/menu.jsp' />
-	<form method='post' id='spelForm'>
-		<c:forEach var='friet' items='${alleFrieten}'>
-
-			<button type='submit' name='volgnummer' value='${friet.key}'>
-				<img src='<c:url value="/images/${friet.value}.png"/>'
-					alt='${friet.value}' />
+<c:import url='/WEB-INF/JSP/menu.jsp' />
+	<h1>Zoek de friet</h1>
+	<form method='post' action='<c:url value=""/>'>
+		<c:forEach items='${zoekDeFrietSpel.deurIsOpen}' var='deurIsOpen'
+			varStatus="status">
+			<button type='submit' name='volgnummer' value='${status.index}'>
+				<c:choose>
+					<c:when test='${deurIsOpen}'>
+						<c:choose>
+							<c:when test='${status.index == zoekDeFrietSpel.deurMetFriet}'>
+								<img src='<c:url value="/images/gevonden.png"/>' alt='gevonden' />
+							</c:when>
+							<c:otherwise>
+								<img src='<c:url value="/images/deuropen.png"/>' alt='deur open' />
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<img src='<c:url value="/images/deurtoe.png"/>' alt='deur toe' />
+					</c:otherwise>
+				</c:choose>
 			</button>
 		</c:forEach>
-		<input type='submit' name ='volgnummer' value='Nieuw spel' id='nieuwspelknop'>
+	
+		<input type="submit" name="nieuwSpel" value="Nieuw spel">
 	</form>
-	<c:if test='${not empty fout}'>
-		<div class='fout'>${fout}</div>
-	</c:if>
 </body>
 </html>
