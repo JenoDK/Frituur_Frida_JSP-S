@@ -6,5 +6,6 @@
 <li><a href="<c:url value='/sauzen.htm'/>">Sauzen</a></li>
 <li><a href="<c:url value='/sauzen/ingrediënten.htm'/>">Zoek saus met ingrediënt</a></li>
 <li><a href="<c:url value='/meisjejongen.htm'/>">Meisje Jongen</a></li>
+<li><a href="<c:url value='/zoekdefriet.htm'/>">Zoek De Friet</a></li>
 </ul></nav>
 </header>
