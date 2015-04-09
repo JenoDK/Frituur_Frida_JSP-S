@@ -4,6 +4,13 @@ body {
 	font-family: sans-serif;
 }
 
+#field {
+	height:1250px;
+	background-image:url(../images/soccerfield.png);
+	background-repeat: no-repeat;
+	background-size: 1260px 750px;
+}
+
 .fullwidth {
 	width: 100%;
 }

@@ -17,7 +17,7 @@
 	
 	<form method='post' action='<c:url value=""/>'>
 		<label>Letter: 
-			<input name='letter' type='text' size='1' autofocus required>
+			<input name='letter' type='text' size='1' autocomplete='off' autofocus required>
 		</label>
 		<input type="submit" name="raden" value="Raden">
 		Fouten: '${sausRadenSpel.fouten}'
@@ -27,8 +27,8 @@
 	</form>
 	
 	<img src='<c:url value="/images/${sausRadenSpel.fouten}.png"/>' alt='galgje' />
-	<c:if test='${not empty bericht}'>
-		<h2>${bericht} ${sausRadenSpel.teradenSausNaam}</h2>
+	<c:if test='${sausRadenSpel.fouten == 10 || sausRadenSpel.geraden}'>
+		<h2>${sausRadenSpel.teradenSausNaam}</h2>
 	</c:if>
 </body>
 </html>

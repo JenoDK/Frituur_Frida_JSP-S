@@ -1,15 +1,18 @@
 package be.vdab.dao;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import be.vdab.entities.Saus;
 
 
-public class SausDAO {
+public class SausDAO implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private static final Map<Long, Saus> sauzen = new ConcurrentHashMap<>();
 	
 	static {

@@ -8,43 +8,41 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import be.vdab.entities.Spelbord;
 
-import be.vdab.entities.SausRadenSpel;
 
-
-/**
- * Servlet implementation class SausRadenServlet
- */
-@WebServlet("/sausraden.htm")
-public class SausRadenServlet extends HttpServlet {
+@WebServlet("/spelbord.htm")
+public class SpelbordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String VIEW = "/WEB-INF/JSP/sausraden.jsp";
-	private static final String SPEL = "sausRadenSpel";
+	private static final String VIEW = "/WEB-INF/JSP/spelbord.jsp";
+	private static final String SPEL = "spelbord";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (session.getAttribute(SPEL) == null) {
-			session.setAttribute(SPEL, new SausRadenSpel());
+			session.setAttribute(SPEL, new Spelbord());
 		}
-		SausRadenSpel spel = (SausRadenSpel) session.getAttribute(SPEL);
-		spel.checkIfWordHasBeenFound();
+		Spelbord spel = (Spelbord) session.getAttribute(SPEL);
+		if (spel.checkIfFinished()) {
+			request.setAttribute("bericht", "U bent gewonnen!");
+		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Spelbord spel = (Spelbord) session.getAttribute(SPEL);
 		if (request.getParameter("nieuwSpel") != null) {
 			session.removeAttribute(SPEL);			
-		} else {
-			char letter = request.getParameter("letter").charAt(0);
-			SausRadenSpel spel = (SausRadenSpel) session.getAttribute(SPEL);
-			if (spel != null && spel.getFouten()<10 && !spel.checkIfWordHasBeenFound()) {
-				spel.checkIfCharExists(letter);
-				session.setAttribute(SPEL, spel);
-			} 
+		}else if (request.getParameter("left") != null){
+			spel.setCoordX(-1);
+		}else if (request.getParameter("right") != null){
+			spel.setCoordX(1);
+		}else if (request.getParameter("up") != null){
+			spel.setCoordY(-1);
+		}else if (request.getParameter("down") != null){
+			spel.setCoordY(1);
 		}
 		response.sendRedirect(response.encodeRedirectURL(request
 				.getRequestURI()));
