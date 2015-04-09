@@ -25,10 +25,10 @@
 	<form method='post' action='<c:url value=""/>'>
 		<input type="submit" name="nieuwSpel" value="Nieuw spel">
 	</form>
-	
-	<img src='<c:url value="/images/${sausRadenSpel.fouten}.png"/>' alt='galgje' />
 	<c:if test='${sausRadenSpel.fouten == 10 || sausRadenSpel.geraden}'>
 		<h2>${sausRadenSpel.teradenSausNaam}</h2>
 	</c:if>
+	<img src='<c:url value="/images/${sausRadenSpel.fouten}.png"/>' alt='galgje' />
+	
 </body>
 </html>
