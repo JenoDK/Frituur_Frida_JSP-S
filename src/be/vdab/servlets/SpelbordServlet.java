@@ -36,13 +36,13 @@ public class SpelbordServlet extends HttpServlet {
 		if (request.getParameter("nieuwSpel") != null) {
 			session.removeAttribute(SPEL);			
 		}else if (request.getParameter("left") != null){
-			spel.setCoordX(-1);
+			spel.setCoordX(-2);
 		}else if (request.getParameter("right") != null){
-			spel.setCoordX(1);
+			spel.setCoordX(2);
 		}else if (request.getParameter("up") != null){
-			spel.setCoordY(-1);
+			spel.setCoordY(-2);
 		}else if (request.getParameter("down") != null){
-			spel.setCoordY(1);
+			spel.setCoordY(2);
 		}
 		response.sendRedirect(response.encodeRedirectURL(request
 				.getRequestURI()));
