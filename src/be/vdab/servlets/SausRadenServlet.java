@@ -12,9 +12,7 @@ import javax.servlet.http.HttpSession;
 import be.vdab.entities.SausRadenSpel;
 
 
-/**
- * Servlet implementation class SausRadenServlet
- */
+
 @WebServlet("/sausraden.htm")
 public class SausRadenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -29,9 +27,7 @@ public class SausRadenServlet extends HttpServlet {
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (request.getParameter("nieuwSpel") != null) {
@@ -39,16 +35,15 @@ public class SausRadenServlet extends HttpServlet {
 		} else {
 			char letter = request.getParameter("letter").charAt(0);
 			SausRadenSpel spel = (SausRadenSpel) session.getAttribute(SPEL);
-			if (spel != null && spel.getFouten()<10 && !spel.checkIfWordHasBeenFound()) {
+			if (spel != null && spel.getFouten()<10 && !spel.getCheckWord()) {
 				spel.checkIfCharExists(letter);
 				session.setAttribute(SPEL, spel);
-			} else {
-				if (spel.checkIfWordHasBeenFound()){
-					session.setAttribute("bericht", "U bent gewonnen, de saus was: ");
-				}else {
-					session.setAttribute("bericht", "U bent verloren, de saus was: ");
-				}
-				
+			}
+			if (spel.getFouten() == 10){
+				spel.setMelding("U bent verloren, de saus was ");
+			}
+			if (spel.getCheckWord()) {
+				spel.setMelding("U bent gewonnen, de saus was ");
 			}
 		}
 		response.sendRedirect(response.encodeRedirectURL(request

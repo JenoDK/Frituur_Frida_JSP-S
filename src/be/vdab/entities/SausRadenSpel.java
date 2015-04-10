@@ -14,6 +14,8 @@ public class SausRadenSpel implements Serializable {
 	private final String teradenSausNaam = teradenSaus.getNaam();
 	private final char teradenSausChar[] = new char[teradenSaus.getNaam().length()];
 	private int fouten = 0;
+	private String melding;
+	private boolean checkWord = false;
 	
 	public SausRadenSpel() {
 		for (int i=0;i<teradenSaus.getNaam().length();i++){
@@ -21,7 +23,14 @@ public class SausRadenSpel implements Serializable {
 		}
 	}
 	
-	
+	public String getMelding() {
+		return melding + teradenSausNaam;
+	}
+
+	public void setMelding(String melding) {
+		this.melding = melding;
+	}
+
 	public String getTeradenSausNaam() {
 		return teradenSausNaam;
 	}
@@ -35,14 +44,12 @@ public class SausRadenSpel implements Serializable {
 		return teradenSausChar;
 	}
 	
-	public boolean checkIfWordHasBeenFound(){
-		boolean check = true;
-		for (char i : teradenSausChar){
-			if (i == '.'){
-				check = false;
-			}
+	public boolean getCheckWord(){
+		String str = String.valueOf(teradenSausChar);
+		if (str.equalsIgnoreCase(teradenSausNaam)){
+			checkWord = true;
 		}
-		return check;
+		return checkWord;
 	}
 	
 	public void checkIfCharExists(char c){
