@@ -13,9 +13,8 @@ public class SausRadenSpel implements Serializable {
 	private final Saus teradenSaus = sausList.get(new Random().nextInt(sausList.size()));
 	private final String teradenSausNaam = teradenSaus.getNaam();
 	private final char teradenSausChar[] = new char[teradenSaus.getNaam().length()];
-	private int fouten = 0;
-	private String melding;
-	private boolean checkWord = false;
+	private int fouten = 0;	
+	private boolean geraden = false;
 	
 	public SausRadenSpel() {
 		for (int i=0;i<teradenSaus.getNaam().length();i++){
@@ -23,16 +22,17 @@ public class SausRadenSpel implements Serializable {
 		}
 	}
 	
-	public String getMelding() {
-		return melding + teradenSausNaam;
-	}
-
-	public void setMelding(String melding) {
-		this.melding = melding;
-	}
-
 	public String getTeradenSausNaam() {
-		return teradenSausNaam;
+		if (checkIfWordHasBeenFound()){
+			return "U bent gewonnen, de saus was: "+teradenSausNaam;
+		}else {
+			return "U bent verloren, de saus was: "+teradenSausNaam;
+		}
+		
+	}
+	
+	public boolean getGeraden() {
+		return geraden;
 	}
 
 
@@ -44,12 +44,14 @@ public class SausRadenSpel implements Serializable {
 		return teradenSausChar;
 	}
 	
-	public boolean getCheckWord(){
+	public boolean checkIfWordHasBeenFound(){		
 		String str = String.valueOf(teradenSausChar);
-		if (str.equalsIgnoreCase(teradenSausNaam)){
-			checkWord = true;
+		if (str.equals(teradenSausNaam)){
+			geraden = true;
+			return true;
+		}else {
+			return false;
 		}
-		return checkWord;
 	}
 	
 	public void checkIfCharExists(char c){
@@ -63,3 +65,4 @@ public class SausRadenSpel implements Serializable {
 	
 	
 }
+
