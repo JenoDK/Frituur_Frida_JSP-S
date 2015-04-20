@@ -1,47 +1,81 @@
 package be.vdab.dao;
 
-
-import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import be.vdab.entities.Saus;
 
+public class SausDAO extends AbstractDAO {
+	private static final String FIND_ALL_SQL = "select sauzen.id, sauzen.naam as sausnaam,"
+			+ " ingredienten.naam as ingredientnaam"
+			+ " from sauzen left join sauzeningrediënten"
+			+ " on sauzen.id=sauzeningrediënten.sausid"
+			+ " left join ingredienten "
+			+ " on sauzeningrediënten.ingredientid=ingredienten.id"
+			+ " order by sauzen.naam";
+	private static final String FIND_BY_INGREDIENT_SQL = "select sauzen.id, sauzen.naam as sausnaam"
+			+ " from sauzen inner join sauzeningrediënten "
+			+ " on sauzen.id=sauzeningrediënten.sausid"
+			+ " inner join ingredienten"
+			+ " on sauzeningrediënten.ingredientid=ingredienten.id"
+			+ " where ingredienten.naam = ?" + " order by sauzen.naam";
+	private static final String DELETE_SQL = "delete from sauzen where id=?";
 
-public class SausDAO implements Serializable{
-	private static final long serialVersionUID = 1L;
-	private static final Map<Long, Saus> sauzen = new ConcurrentHashMap<>();
-	
-	static {
-		sauzen.put(12L, new Saus(12, "cocktail", Arrays.asList("mayonaise", "ketchup", "cognac")));
-		sauzen.put(14L, new Saus(14, "mayonaise", Arrays.asList("ei", "mosterd")));
-		sauzen.put(17L, new Saus(17, "mosterd", Arrays.asList("mosterd", "azijn", "witte wijn")));
-		sauzen.put(23L, new Saus(23, "tartare", Arrays.asList("mayonaise", "augurk", "tabasco")));
-		sauzen.put(44L, new Saus(44,"vinaigrette",Arrays.asList("olijfolie","mosterd","azijn")));
-	}
-	
-	public Iterable<Saus> findAll(){
-		return new ArrayList<>(sauzen.values());
-	}
-	
-	public List<Saus> findByIngrediënt(String ingrediënt) {
-		String ingrediëntLowerCase = ingrediënt.toLowerCase();
-		List<Saus> sauzen = new ArrayList<>();
-		for (Saus saus : SausDAO.sauzen.values()) {
-			List<String> ingrediëntenList = saus.getIngrediënten();
-			for(int i=0; i < ingrediëntenList.size(); i++) {
-				ingrediëntenList.set(i, ingrediëntenList.get(i).toLowerCase());
+	public List<Saus> findAll() {
+		try (Connection connection = dataSource.getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
+			List<Saus> sauzen = new ArrayList<>();
+			for (long vorigeId = 0; resultSet.next();) {
+				long id = resultSet.getLong("id");
+				if (id != vorigeId) {
+					sauzen.add(resultSetRijNaarSausZonderIngredienten(resultSet));
+					vorigeId = id;
+				}
+				sauzen.get(sauzen.size() - 1).addIngredient(
+						resultSet.getString("ingredientnaam"));
 			}
-			if (ingrediëntenList.contains(ingrediëntLowerCase)) {
-				sauzen.add(saus);
-			}
+			return sauzen;
+		} catch (SQLException ex) {
+			throw new DAOException(ex);
 		}
-		return sauzen;
 	}
-	public void remove(Long id){
-		sauzen.remove(id);
+
+	public List<Saus> findByIngredient(String ingredient) {
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement(FIND_BY_INGREDIENT_SQL)) {
+			statement.setString(1, ingredient);
+			List<Saus> sauzen = new ArrayList<>();
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					sauzen.add(resultSetRijNaarSausZonderIngredienten(resultSet));
+				}
+				return sauzen;
+			}
+		} catch (SQLException ex) {
+			throw new DAOException(ex);
+		}
 	}
+
+	private Saus resultSetRijNaarSausZonderIngredienten(ResultSet resultSet)
+			throws SQLException {
+		return new Saus(resultSet.getLong("id"),
+				resultSet.getString("sausnaam"), new ArrayList<String>());
+	}
+
+	public void delete(long id) {
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement(DELETE_SQL)) {
+			statement.setLong(1, id);
+			statement.executeUpdate();
+		} catch (SQLException ex) {
+			throw new DAOException(ex);
+		}
+	}	
 }

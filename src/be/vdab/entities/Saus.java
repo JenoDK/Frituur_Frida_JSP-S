@@ -33,5 +33,8 @@ public class Saus implements Serializable{
 	public void setIngrediënten(List<String> ingrediënten) {
 		this.ingrediënten = ingrediënten;
 	}
+	public void addIngredient(String ingredient){
+		ingrediënten.add(ingredient);
+	}
 	
 }
