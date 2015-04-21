@@ -13,30 +13,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Servlet Filter implementation class RequestFilter
- */
 @WebFilter("*.htm")
 public class RequestFilter implements Filter {
 	private final static String STATISTIEK = "statistiek";
 
-	/**
-	 * Default constructor.
-	 */
-	public RequestFilter() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see Filter#destroy()
-	 */
+	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		if (request instanceof HttpServletRequest) {
@@ -57,9 +42,7 @@ public class RequestFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
+	@Override
 	public void init(FilterConfig fConfig) throws ServletException {
 		fConfig.getServletContext().setAttribute(STATISTIEK,
 				new ConcurrentHashMap<String, AtomicInteger>());

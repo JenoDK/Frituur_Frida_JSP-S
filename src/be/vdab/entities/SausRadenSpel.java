@@ -9,17 +9,20 @@ public class SausRadenSpel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private List<Saus> sausList;
-	
-	public SausRadenSpel(List<Saus> sausList) {
-		this.sausList = sausList;
-	}
-	private final Saus teradenSaus = sausList.get(new Random().nextInt(sausList.size()));
-	private final String teradenSausNaam = teradenSaus.getNaam();
-	private final String teradenSausInPoints = teradenSausNaam.replaceAll("(?s).", ".");
-	private final char[] teradenSausChar = teradenSausInPoints.toCharArray();
+	private Saus teradenSaus;
+	private String teradenSausNaam;
+	private String teradenSausInPoints;
+	private char[] teradenSausChar;
 	private int fouten = 0;	
 	private boolean geraden = false;
+	
+	public SausRadenSpel(List<Saus> sausList) {
+		teradenSaus = sausList.get(new Random().nextInt(sausList.size()));
+		teradenSausNaam = teradenSaus.getNaam();
+		teradenSausInPoints = teradenSausNaam.replaceAll("(?s).", ".");
+		teradenSausChar = teradenSausInPoints.toCharArray();
+	}
+	
 	
 	public String getTeradenSausNaam() {
 		if (checkIfWordHasBeenFound()){

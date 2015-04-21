@@ -2,6 +2,7 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import be.vdab.dao.SausDAO;
+import be.vdab.entities.Saus;
 import be.vdab.entities.SausRadenSpel;
 
 
@@ -20,8 +22,7 @@ import be.vdab.entities.SausRadenSpel;
 public class SausRadenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/sausraden.jsp";
-	private static final String SPEL = "sausRadenSpel";
-	
+	private static final String SPEL = "sausRadenSpel";	
 	private final transient SausDAO sausDAO = new SausDAO();
 	
 	@Resource(name = SausDAO.JNDI_NAME)
