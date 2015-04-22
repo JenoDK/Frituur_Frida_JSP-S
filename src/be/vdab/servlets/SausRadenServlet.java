@@ -2,8 +2,6 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import be.vdab.dao.SausDAO;
-import be.vdab.entities.Saus;
 import be.vdab.entities.SausRadenSpel;
 
 
