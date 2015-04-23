@@ -1,4 +1,5 @@
 <%@ page contentType='text/html' pageEncoding='UTF-8'%>
+<%@taglib uri='http://vdab.be/tags' prefix='vdab'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!doctype html>
 <html lang="nl">
@@ -8,7 +9,7 @@
 </c:import>
 </head>
 <body>
-<c:import url='/WEB-INF/JSP/menu.jsp' />
+<vdab:menu/>
 	<h1>Zoek de friet</h1>
 	<form method='post' action='<c:url value=""/>'>
 		<c:forEach items='${zoekDeFrietSpel.deurIsOpen}' var='deurIsOpen'

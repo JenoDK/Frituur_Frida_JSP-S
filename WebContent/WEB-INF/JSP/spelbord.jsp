@@ -1,4 +1,5 @@
 <%@ page contentType='text/html' pageEncoding='UTF-8'%>
+<%@taglib uri='http://vdab.be/tags' prefix='vdab'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!doctype html>
 <html lang="nl">
@@ -9,7 +10,7 @@
 <link rel='stylesheet' href='<c:url value="/css/style.css"/>'>
 </head>
 <body>
-	<c:import url='/WEB-INF/JSP/menu.jsp' />
+	<vdab:menu/>
 	<h2>Plaats de bal op de middenstip! (een beetje rechts ervan)</h2>
 	<form method='post' action='<c:url value=""/>'>
 		<input type="submit" name="nieuwSpel" value="Nieuw spel">
