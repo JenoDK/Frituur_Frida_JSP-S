@@ -1,0 +1,17 @@
+#carddeckBackground {
+	width:120px;
+	float:left;
+	margin-right:20px;
+}
+
+#cards {
+	list-style-type:none;
+}
+#cards li {
+    float: left;    
+    padding:10px;
+}
+
+#gameMenu {
+	height:163px;
+}
