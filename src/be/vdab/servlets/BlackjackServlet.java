@@ -1,6 +1,8 @@
 package be.vdab.servlets;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import be.vdab.entities.Blackjack;
 
 /**
@@ -37,6 +41,14 @@ public class BlackjackServlet extends HttpServlet {
 		session.setAttribute("cards",spel.getCardsInHand());
 		session.setAttribute("value",spel.getValue());
 		if (spel.getValue()>21){
+//			try {
+//				String soundFile = "/soundfiles/fail.mp3";
+//				InputStream in = new FileInputStream(soundFile);
+//				AudioStream audioStream = new AudioStream(in);
+//				AudioPlayer.player.start(audioStream);
+//			} catch (Exception ex){
+//				System.out.println(ex);
+//			}			
 			session.setAttribute("gameMsg", "You're broke, try again.");
 		}
 		if (spel.getValue()==21){
